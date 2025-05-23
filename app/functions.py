@@ -27,6 +27,35 @@ def get_auth(request):
     except jwt.InvalidTokenError:
         return HttpResponse('Token inválido', status=401)
 
+def trigger_monday_webhook(webhook_url, output_fields):
+    SIGNING_SECRET = os.getenv("SIGNING_SECRET")
+    APP_ISSUER = os.getenv("APP_ID")  # opcional, si prefieres meterlo en .env
+
+    if not SIGNING_SECRET:
+        raise ValueError("Falta SIGNING_SECRET en las variables de entorno")
+
+    payload = {
+        "iat": int(time.time()),
+        "iss": APP_ISSUER or "f864ca3026e4ae0f32fcf492838a6976"
+    }
+
+    token = jwt.encode(payload, SIGNING_SECRET, algorithm="HS256")
+    if isinstance(token, bytes):
+        token = token.decode("utf-8")
+
+    headers = {
+        "Authorization": token,
+        "Content-Type": "application/json"
+    }
+
+    body = {
+        "trigger": {
+            "outputFields": output_fields
+        }
+    }
+
+    response = requests.post(webhook_url, json=body, headers=headers)
+    return response
 
 def monday_request(query, token):
     

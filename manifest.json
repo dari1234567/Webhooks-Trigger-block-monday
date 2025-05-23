@@ -1,0 +1,42 @@
+{
+  "name": "My Custom Trigger App",
+  "version": "1.0",
+  "identifier": "my-custom-trigger-app",
+  "integration": {
+    "recipes": [
+      {
+        "name": "Cuando Columna cambia, traer Board, Item y Columna",
+        "action": {
+          "url": "https://63bb-37-222-78-113.ngrok-free.app/app/test",
+          "type": "trigger",
+          "inputFields": [
+            {
+              "key": "columnId",
+              "type": "text",
+              "label": "Column ID"
+            }
+          ],
+          "outputFields": [
+            {
+              "key": "board",
+              "type": "text",
+              "label": "Board ID"
+            },
+            {
+              "key": "item",
+              "type": "text",
+              "label": "Item ID"
+            },
+            {
+              "key": "column",
+              "type": "text",
+              "label": "Column ID"
+            }
+          ],
+          "subscribeUrl": "https://63bb-37-222-78-113.ngrok-free.app/app/subscribe",
+          "unsubscribeUrl": "https://63bb-37-222-78-113.ngrok-free.app/app/unsubscribe"
+        }
+      }
+    ]
+  }
+}
